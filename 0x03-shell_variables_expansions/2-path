@@ -1,4 +1,2 @@
 #!/bin/bash
-
-export PATH=$PATH:/action
-# This script add the directory /action to the PATH environment variables thus allowing the shell to find executables in that directory when the command is run
+export PATH="$PATH:/action"
