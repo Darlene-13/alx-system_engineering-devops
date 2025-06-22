@@ -1,2 +1,2 @@
 #!/bin/bash
-while read -r l; do echo "$l"; read; done
+nl | grep '[13579]	' | cut -f2
