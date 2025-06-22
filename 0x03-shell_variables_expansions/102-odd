@@ -1,2 +1,2 @@
 #!/bin/bash
-i=0; while read -r l; do [ $((i++ % 2)) -eq 0 ] && echo "$l"; done
+while read -r l; do echo "$l"; read; done
