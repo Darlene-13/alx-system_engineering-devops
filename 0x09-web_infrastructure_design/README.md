@@ -2,6 +2,7 @@
 
 This task involves designing a basic web infrastructure on a single server with a LAMP-like stack. Below is a breakdown of the key concepts and limitations of such an architecture.
 
+![Simple Web Stack Diagram](0x09-web_infrastructure_design/Web-Infrastructure.png)
 ---
 
 ## 🧠 Conceptual Explanations
