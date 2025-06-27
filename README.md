@@ -132,3 +132,70 @@ In practice:
 
 ---
 
+# Task 2: Secured and Monitored Web Infrastructure
+
+This task extends the distributed infrastructure by implementing critical security and monitoring components to protect the system and track performance.
+
+---
+
+## 🔐 Security Enhancements
+
+### ✅ HTTPS (SSL/TLS)
+- **Purpose**: Encrypts communication between the user and the web infrastructure.
+- **Implementation**:
+  - SSL certificates are configured at the **HAProxy Load Balancer**, enabling HTTPS on port **443**.
+  - Traffic between user and load balancer is encrypted, ensuring data confidentiality and integrity.
+
+### ✅ Firewall
+- **Purpose**: Filters network traffic and prevents unauthorized access.
+- **Implementation**:
+  - A **firewall is positioned in front of the load balancer**, allowing only:
+    - Port **443** (HTTPS)
+    - Optionally, port **22** (SSH) for administration (restricted to specific IPs)
+  - Further firewalls can be configured between the load balancer and internal servers to limit internal exposure.
+
+---
+
+## 📈 Monitoring Enhancements
+
+### ✅ Monitoring System (e.g., Collectd, Prometheus, Nagios)
+- **Purpose**: Provides visibility into system performance and health.
+- **Implementation**:
+  - Monitoring agents are installed on:
+    - Web/App Servers
+    - Load Balancer
+    - MySQL Database Server
+  - Metrics collected include:
+    - **CPU usage**
+    - **RAM utilization**
+    - **Disk space**
+    - **Server uptime**
+    - **Request rate**
+  - Alerts can be configured to notify admins on thresholds or server failure.
+
+---
+
+## 🧠 Why These Are Critical
+
+| Component   | Problem Solved                             | Benefits                                     |
+|-------------|---------------------------------------------|----------------------------------------------|
+| HTTPS       | Prevents data interception (MITM attacks)   | Encrypts user data, boosts trust             |
+| Firewall    | Exposes only necessary ports/services       | Minimizes attack surface                     |
+| Monitoring  | Lack of visibility, slow response to issues | Enables proactive maintenance and scaling    |
+
+---
+
+## ⚠️ Remaining Issues (To Be Addressed Later)
+
+- **No Load Balancer Redundancy**: Still a single point of failure.
+- **No Database Replication**: MySQL is a SPOF unless configured as Primary-Replica.
+- **No Logging System**: No centralized logs for debugging or audit.
+
+---
+
+## 📷 Architecture Diagram
+
+> *(Insert image link once hosted on Imgur or other service)*
+
+```markdown
+![Secured and Monitored Infrastructure Diagram](0x09-web_infrastructure_design/Secured and Monitored Infrastructure Diagram.png)
