@@ -195,7 +195,68 @@ This task extends the distributed infrastructure by implementing critical securi
 
 ## 📷 Architecture Diagram
 
-> *(Insert image link once hosted on Imgur or other service)*
+![ Secured and Monitored Infrastructure Diagram](0x09-web_infrastructure_design/Secured and Monitored Infrastructure Diagram.png)
 
-```markdown
-![Secured and Monitored Infrastructure Diagram](0x09-web_infrastructure_design/Secured and Monitored Infrastructure Diagram.png)
+
+# Task 3: Scalable and Redundant Web Infrastructure
+
+In this task, we build a fault-tolerant, modular infrastructure by splitting major components onto separate servers and adding a second HAProxy load balancer to remove remaining SPOFs.
+
+---
+
+## ⚙️ Key Additions
+
+### ✅ 1. Additional Load Balancer (HAProxy Cluster)
+- **Why?** To eliminate the **single point of failure** in load balancing.
+- **Configuration**: HAProxy is set up in **Active-Passive mode**.
+  - **Active node** handles all traffic.
+  - **Passive node** takes over automatically if the active node fails.
+- **Result**: Higher availability and uninterrupted service even during failures.
+
+### ✅ 2. One Additional Server
+- **Why?** Enables the splitting of roles — for better scalability and maintenance.
+- **Use case**: Can be dedicated to the **database**, **application logic**, or **static file hosting**.
+
+### ✅ 3. Component Separation
+- **Web Server (Nginx)**: Handles static files, SSL termination, and proxies to the app server.
+- **Application Server (e.g., Node.js, Django)**: Handles dynamic content and core logic.
+- **Database Server (MySQL)**: Handles persistent data storage and queries.
+
+This separation allows each component to be scaled independently and tuned for its specific workload.
+
+---
+
+## 🧠 Application Server vs Web Server
+
+| Feature                  | Web Server (e.g., Nginx)                   | Application Server (e.g., Gunicorn, uWSGI, Node.js)      |
+|--------------------------|--------------------------------------------|----------------------------------------------------------|
+| Purpose                  | Handles HTTP requests, serves static files | Runs business logic, processes dynamic requests          |
+| Languages supported      | None (just serves files)                   | Runs code (Python, PHP, JS, etc.)                        |
+| Example tasks            | Serves HTML/CSS/images, handles SSL        | Authenticates users, interacts with DB, renders logic    |
+| Communication method     | Listens on port 80/443                     | Listens on a port behind web server (e.g., 8000)         |
+
+---
+
+## 🌐 Scalable Architecture Overview
+
+- Users → DNS → **HAProxy Cluster**
+- HAProxy → Web Servers (Nginx)
+- Web Servers → App Servers (Node.js/Django)
+- App Servers → Database Server (MySQL)
+
+This architecture:
+- Separates concerns (modularity)
+- Supports horizontal scaling
+- Supports failover in key infrastructure components
+
+---
+
+## 🧱 Summary of Benefits
+
+| Benefit               | Result                                           |
+|-----------------------|--------------------------------------------------|
+| Load balancer cluster | Prevents downtime if one LB fails               |
+| Component separation  | Easier to scale and maintain individually       |
+| Additional server     | Reduces contention, improves performance        |
+| Cleaner architecture  | Better for CI/CD, observability, and security   |
+
