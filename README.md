@@ -55,3 +55,80 @@ Communication happens over **HTTP/HTTPS protocols**, using **TCP/IP** as the und
    The setup cannot handle large volumes of traffic easily — the single server has limited CPU, RAM, and network capacity.
 
 ---
+
+# Task 1: Distributed Web Infrastructure
+
+This task involves designing a three-server infrastructure to host `www.foobar.com`, focusing on load balancing, redundancy, and availability.
+
+![ Web Stack Diagram](0x09-web_infrastructure_design/1-distributed_web_infrastructure.png)
+---
+
+## 🧠 Conceptual Explanations
+
+### 🔧 Why Each Element is Added
+
+- **HAProxy Load Balancer**  
+  Distributes user requests across multiple servers to reduce load and ensure redundancy.
+
+- **2 Web/App Servers**  
+  Ensure high availability. If one fails, the other continues serving requests without downtime.
+
+- **One Shared Codebase**  
+  Keeps both servers in sync to provide consistent application behavior and updates.
+
+- **Single MySQL Database**  
+  Central data store accessed by both application servers for persistence and data sharing.
+
+---
+
+### 🔁 Load Balancer Algorithm
+
+- **Round Robin**  
+  A simple algorithm that evenly distributes incoming requests in a cyclical order:  
+  `Server A → Server B → Server A → …`  
+  Effective when the backend servers have similar capacities and workloads.
+
+---
+
+### 🔄 Active-Active vs Active-Passive
+
+- **Active-Active**  
+  All backend servers process traffic concurrently.  
+  _This is our setup_: both Web/App servers are live, and HAProxy distributes traffic between them.
+
+- **Active-Passive**  
+  One server is active, while the other stays idle as a backup.  
+  It only takes over when the active server fails.
+
+---
+
+### 🧬 Primary-Replica (Master-Slave) Database Cluster
+
+> _(Optional in this task, but worth understanding)_
+
+- The **Primary** node handles **all writes** and can serve reads.
+- The **Replica(s)** only serve **read queries**, and they **synchronize data** from the Primary node.
+- Improves **performance** and provides **redundancy** in case of Primary failure (with additional failover setup).
+  
+In practice:
+- Your application **writes to the Primary**.
+- It may **read from either** if load distribution for reads is configured.
+
+---
+
+## ⚠️ Weaknesses in This Infrastructure
+
+1. **Single Points of Failure (SPOFs)**  
+   - **HAProxy Load Balancer**: If it fails, the entire system becomes unreachable.  
+   - **MySQL Database**: No redundancy; failure results in data inaccessibility.
+
+2. **Security Issues**  
+   - **No HTTPS**: All communications are unencrypted and vulnerable to interception.  
+   - **No Firewall**: System is exposed to attacks, port scanning, and brute force attempts.
+
+3. **Lack of Monitoring**  
+   - No visibility into uptime, response times, or failure detection.  
+   - No alerts, health checks, or logs to proactively resolve issues.
+
+---
+
