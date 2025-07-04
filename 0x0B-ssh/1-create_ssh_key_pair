@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-# This script uses ssh to connect to a server using a private key
 ssh-keygen -t rsa -b 4096 -f school -N "betty"
