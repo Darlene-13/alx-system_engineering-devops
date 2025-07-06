@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Script to install and configure HAProxy with roundrobin load balancing between two web servers
+# Install and configure HAProxy with roundrobin load balancing between two web servers
 
 # Install HAProxy
 apt-get update -y
@@ -44,8 +44,8 @@ frontend http_front
 
 backend http_back
     balance roundrobin
-    server web-01 <WEB1_IP>:80 check
-    server web-02 <WEB2_IP>:80 check
+    server web-01 WEB1_IP:80 check
+    server web-02 WEB2_IP:80 check
 EOF
 
 # Restart HAProxy
