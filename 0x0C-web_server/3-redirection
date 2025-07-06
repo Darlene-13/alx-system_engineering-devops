@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Installs nginx and configures a 301 redirect from /redirect_me to a YouTube video
+
+# Update and install nginx
+apt-get update -y
+apt-get install nginx -y
+
+# Create "Hello World!" index page
+echo 'Hello World!' > /var/www/html/index.html
+
+# Add redirect location to the default nginx server block
+sed -i '/location \/ {/a \\n    location /redirect_me {\n        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n    }' /etc/nginx/sites-available/default
+
+# Start nginx (avoid systemctl)
+service nginx restart || /etc/init.d/nginx restart
