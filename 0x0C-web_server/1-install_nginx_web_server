@@ -1,14 +1,22 @@
 #!/usr/bin/env bash
-# Installs and configures nginx web server to serve "Hello World!"
+# Configures a new ubuntu machine by installing
+# Nginx where it should be listening on port 80
 
-# Update package list
-apt-get update
+echo -e "Updating and installing Nginx.\n"
+sudo apt-get update -y -qq && \
+	 sudo apt-get install nginx -y
 
-# Install nginx
-apt-get install -y nginx
+echo -e "\nSetting up some minor stuff.\n"
 
-# Create a simple HTML page with "Hello World!"
-echo "Hello World!" > /var/www/html/index.html
+sudo service nginx start
 
-# Restart nginx service to ensure it's running
-service nginx restart
+sudo ufw allow 'Nginx HTTP'
+
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
+
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
+
+sudo service nginx restart
