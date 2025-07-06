@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Script that transfers a file from the client to the server using scp
 if [ $# -lt 4 ]; then
-    echo "Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
+    echo "Usage: 0-transfer_file PATH_TO_FILE USERNAME PATH_TO_SSH_KEY"
     exit 1
 fi
 
@@ -14,3 +14,4 @@ PATH-TO-SSH-KEY=$4
 #Transfer the file using scp with strict hosy key checking disabled
 scp  -o StrictHostKeyChecking=no -i "$PATH_TO_SSH_KEY" "$PATH_TO_FILE" "$USERNAME@IP:~/"
 
+exit 0
