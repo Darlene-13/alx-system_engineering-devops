@@ -1,12 +1,22 @@
-#!/usr/bin/env bash
-# Configure new ufw firewall to block incoming traffic
-# except TCP ports 22, 80, 443
+# Install UFW firewall (if not already installed)
+sudo apt-get update
+sudo apt-get install ufw
 
-sudo apt install ufw
+# Set default policies - deny all incoming, allow all outgoing
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
+
+# Allow SSH (port 22) - CRITICAL: Do this BEFORE enabling firewall
 sudo ufw allow 22/tcp
-sudo ufw allow 443/tcp
+
+# Allow HTTP (port 80)
 sudo ufw allow 80/tcp
+
+# Allow HTTPS (port 443)
+sudo ufw allow 443/tcp
+
+# Enable the firewall
 sudo ufw enable
+
+# Check the firewall status and rules
 sudo ufw status verbose
