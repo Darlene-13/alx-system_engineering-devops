@@ -1,14 +1,24 @@
 #!/usr/bin/env bash
-# Installs nginx, starts the service, and configures it to return 'Hello World!' from root
+# Script that installs and configures nginx web server
 
 # Update package lists
 apt-get update -y
 
-# Install nginx
-apt-get install nginx -y
+# Install nginx with -y flag (automatic yes to prompts)
+apt-get install -y nginx
 
-# Replace default HTML page with 'Hello World!'
-echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+# Ensure nginx is stopped before configuration
+service nginx stop
 
-# Start nginx without using systemctl
-service nginx start || /etc/init.d/nginx start
+# Create a simple HTML page with "Hello World!"
+echo "Hello World!" > /var/www/html/index.html
+
+# Set proper permissions for the web directory
+chown -R www-data:www-data /var/www/html/
+chmod -R 755 /var/www/html/
+
+# Start nginx service
+service nginx start
+
+# Enable nginx to start on boot
+update-rc.d nginx enable
