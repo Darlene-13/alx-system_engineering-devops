@@ -1,14 +1,1 @@
-#!/usr/bin/env bash
-# Installs and configures nginx web server to serve "Hello World!"
-
-# Update package list
-apt-get update
-
-# Install nginx
-apt-get install -y nginx
-
-# Create a simple HTML page with "Hello World!"
-echo "Hello World!" > /var/www/html/index.html
-
-# Restart nginx service to ensure it's running
-service nginx restart
+darlenewendie.tech
