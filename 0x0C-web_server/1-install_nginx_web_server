@@ -8,7 +8,7 @@ apt-get update -y
 apt-get install nginx -y
 
 # Replace default HTML page with 'Hello World!'
-echo 'Hello World!' > /var/www/html/index.html
+echo 'Hello World!' > /var/www/html/index.nginx-debian.html
 
 # Start nginx without using systemctl
 service nginx start || /etc/init.d/nginx start
