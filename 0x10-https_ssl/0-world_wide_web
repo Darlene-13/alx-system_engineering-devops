@@ -7,12 +7,11 @@ display_subdomain_info() {
     local subdomain=$2
     
     # Use dig to get DNS information and parse with awk
-    # shellcheck disable=SC2086
-    local result=$(dig $subdomain.$domain | awk '/^'"$subdomain.$domain"'/ {print $4, $5}')
+    local result=$(dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:' | tail -n1)
     
-    # Extract record type and destination
-    local record_type=$(echo $result | awk '{print $1}')
-    local destination=$(echo $result | awk '{print $2}')
+    # Extract record type and destination using awk
+    local record_type=$(echo "$result" | awk '{print $4}')
+    local destination=$(echo "$result" | awk '{print $5}')
     
     # Display the information in required format
     echo "The subdomain $subdomain is a $record_type record and points to $destination"
