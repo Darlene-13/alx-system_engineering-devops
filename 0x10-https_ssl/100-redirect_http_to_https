@@ -21,8 +21,8 @@ frontend haproxy_balancer
     bind *:80
     bind *:443 ssl crt /etc/ssl/certs/www.darlenewendie.tech.pem
     
-    # Redirect HTTP to HTTPS for better security
-    redirect scheme https if !{ ssl_fc }
+    # Redirect HTTP to HTTPS with 301 (Moved Permanently)
+    redirect scheme https code 301 if !{ ssl_fc }
     
     # Set headers for backend servers
     option httplog
